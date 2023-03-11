@@ -1,0 +1,7 @@
+﻿@model IEnumerable<Category>
+@{
+}
+@foreach (var anaKategori in Model)
+{
+    <li class="nav-item"><a href="/Category/Index/@anaKategori.Id" class="nav-link">@anaKategori.Name</a></li>
+}
