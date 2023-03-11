@@ -1,14 +1,25 @@
 ﻿
 @{
-    ViewData["Title"] = "About";
+    ViewData["Title"] = "Hakkımda";
 }
+<div class="header-logo py-5 d-none d-lg-block">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="" class="img-fluid w-100"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_Header1" />
 
 <div class="breadcrumb-wrapper">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
                 <div class="text-center">
-                    <h2 class="lg-title">Hakkımızda</h2>
+                    <h2 class="lg-title">Hakkımda</h2>
                 </div>
             </div>
         </div>
@@ -27,15 +38,15 @@
                     <div class="col-lg-12">
                         <div class="row">
                             <div class="col-lg-4">
-                                <h5 class="text-uppercase letter-spacing mb-4">Who is me?</h5>
+                                <h5 class="text-uppercase letter-spacing mb-4">Ben Kimim?</h5>
                                 <p>Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat</p>
                             </div>
                             <div class="col-lg-4">
-                                <h5 class="text-uppercase letter-spacing mb-4">My vission</h5>
+                                <h5 class="text-uppercase letter-spacing mb-4">Vizyonum</h5>
                                 <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis biben. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat auctor eu in elit.</p>
                             </div>
                             <div class="col-lg-4">
-                                <h5 class="text-uppercase letter-spacing mb-4">Follow Me :</h5>
+                                <h5 class="text-uppercase letter-spacing mb-4">Beni Takip Et :</h5>
                                 <div class="follow-socials">
                                     <a href="#" class="fb"><i class="ti-facebook"></i></a>
                                     <a href="#" class="twt"><i class="ti-twitter"></i></a>
@@ -79,3 +90,5 @@
         </div>
     </div>
 </section>
+
+<partial name="_Footer1" />
