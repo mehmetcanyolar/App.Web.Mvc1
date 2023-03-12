@@ -15,5 +15,10 @@ namespace App.Web.Mvc1.Controllers
             return View();
         }
 
+
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
     }
 }
