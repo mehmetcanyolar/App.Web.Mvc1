@@ -1,9 +1,18 @@
 ﻿@model Post
 @{
-    ViewData["Title"] = "İçerik";
+    ViewData["Title"] = Model.Title;
 }
 
-<h1>Detail</h1>
+<div class="header-logo py-5 d-none d-lg-block">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="" class="img-fluid w-100"></a>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_Header1"/>
 
 <section class="single-block-wrapper section-padding">
     <div class="container">
@@ -13,10 +22,11 @@
                     <div class="post-header mb-5 text-center">
                         <div class="meta-cat">
                             <a class="post-category font-extra text-color text-uppercase font-sm letter-spacing-1" href="#">Sağlık ,</a>
-                            <a class="post-category font-extra text-color text-uppercase font-sm letter-spacing-1" href="#">Yaşam Tarzı</a>
+                            <a class="post-category font-extra text-color text-uppercase font-sm letter-spacing-1" href="#">Yaşam Tarzı,</a>
+                            <a class="post-category font-extra text-color text-uppercase font-sm letter-spacing-1" href="#">@Model.Category.Name</a>
                         </div>
                         <h2 class="post-title mt-2">
-                            Sonbahar Koleksiyonuna İlk Bakış
+                            @Model.Title
                         </h2>
 
                         <div class="post-meta">
@@ -286,3 +296,5 @@
         </div>
     </div>
 </section>
+
+<partial name="_Footer1" />

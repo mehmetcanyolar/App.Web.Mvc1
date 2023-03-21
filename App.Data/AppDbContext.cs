@@ -10,7 +10,7 @@ namespace App.Data
 
         }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<CategoryPost> CategoriesPost { get; set; }
+        //public DbSet<CategoryPost> CategoriesPost { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Setting> Settings { get; set; }

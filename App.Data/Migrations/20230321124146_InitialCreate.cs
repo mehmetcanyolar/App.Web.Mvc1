@@ -42,26 +42,6 @@ namespace App.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoriesPost",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    PostId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CategoriesPost", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CategoriesPost_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PostComments",
                 columns: table => new
                 {
@@ -107,11 +87,18 @@ namespace App.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Posts_Users_UserId",
                         column: x => x.UserId,
@@ -182,35 +169,16 @@ namespace App.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "Content", "Title", "UserId" },
+                columns: new[] { "Id", "CategoryId", "Content", "Title", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "İçerik1", "İçerik1", 1 },
-                    { 2, "İçerik2", "İçerik2", 2 }
+                    { 1, 1, "İçerik1", "İçerik1", 1 },
+                    { 2, 2, "İçerik2", "İçerik2", 2 },
+                    { 3, 3, "İçerik3", "İçerik3", 1 },
+                    { 4, 1, "İçerik4", "İçerik4", 2 },
+                    { 5, 2, "İçerik5", "İçerik5", 1 },
+                    { 6, 3, "İçerik6", "İçerik6", 2 }
                 });
-
-            migrationBuilder.InsertData(
-                table: "CategoriesPost",
-                columns: new[] { "Id", "CategoryId", "PostId" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 2, 1, 2 },
-                    { 3, 2, 1 },
-                    { 4, 2, 2 },
-                    { 5, 3, 1 },
-                    { 6, 3, 2 }
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CategoriesPost_CategoryId",
-                table: "CategoriesPost",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CategoriesPost_PostId",
-                table: "CategoriesPost",
-                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostComments_PostId",
@@ -221,6 +189,11 @@ namespace App.Data.Migrations
                 name: "IX_PostImages_PostId",
                 table: "PostImages",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_CategoryId",
+                table: "Posts",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
@@ -236,14 +209,6 @@ namespace App.Data.Migrations
                 name: "IX_Users_PostCommentId",
                 table: "Users",
                 column: "PostCommentId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CategoriesPost_Posts_PostId",
-                table: "CategoriesPost",
-                column: "PostId",
-                principalTable: "Posts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_PostComments_Posts_PostId",
@@ -262,9 +227,6 @@ namespace App.Data.Migrations
                 table: "PostComments");
 
             migrationBuilder.DropTable(
-                name: "CategoriesPost");
-
-            migrationBuilder.DropTable(
                 name: "Pages");
 
             migrationBuilder.DropTable(
@@ -274,10 +236,10 @@ namespace App.Data.Migrations
                 name: "Settings");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Users");

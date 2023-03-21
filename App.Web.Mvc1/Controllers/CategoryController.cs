@@ -15,11 +15,11 @@ namespace App.Web.Mvc1.Controllers
 		}
 		public async Task<IActionResult> Index(int id)
 		{
-			var model = await _context.Categories.Where(k => k.Id == id).Include(p => p.CategoryPosts).ToListAsync();
+			var model = await _context.Posts.Where(p=>p.CategoryId == id).ToListAsync();
 			var ad = await _context.Categories.Where(k => k.Id == id).AsNoTracking().FirstOrDefaultAsync();
 			var post = new CategoryPageModel()
 			{
-				Categories = model,
+				Posts = model,
 				Category = ad
 			};
 			return View(post);

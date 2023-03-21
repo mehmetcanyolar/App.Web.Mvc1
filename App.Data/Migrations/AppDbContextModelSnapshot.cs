@@ -64,67 +64,6 @@ namespace App.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("App.Data.Entity.CategoryPost", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("CategoriesPost");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            PostId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = 1,
-                            PostId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CategoryId = 2,
-                            PostId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CategoryId = 2,
-                            PostId = 2
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CategoryId = 3,
-                            PostId = 1
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CategoryId = 3,
-                            PostId = 2
-                        });
-                });
-
             modelBuilder.Entity("App.Data.Entity.Page", b =>
                 {
                     b.Property<int>("Id")
@@ -158,6 +97,9 @@ namespace App.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -172,6 +114,8 @@ namespace App.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
@@ -180,6 +124,7 @@ namespace App.Data.Migrations
                         new
                         {
                             Id = 1,
+                            CategoryId = 1,
                             Content = "İçerik1",
                             Title = "İçerik1",
                             UserId = 1
@@ -187,8 +132,41 @@ namespace App.Data.Migrations
                         new
                         {
                             Id = 2,
+                            CategoryId = 2,
                             Content = "İçerik2",
                             Title = "İçerik2",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            Content = "İçerik3",
+                            Title = "İçerik3",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 1,
+                            Content = "İçerik4",
+                            Title = "İçerik4",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 2,
+                            Content = "İçerik5",
+                            Title = "İçerik5",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 3,
+                            Content = "İçerik6",
+                            Title = "İçerik6",
                             UserId = 2
                         });
                 });
@@ -329,32 +307,21 @@ namespace App.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("App.Data.Entity.CategoryPost", b =>
+            modelBuilder.Entity("App.Data.Entity.Post", b =>
                 {
                     b.HasOne("App.Data.Entity.Category", "Category")
-                        .WithMany("CategoryPosts")
+                        .WithMany("Posts")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("App.Data.Entity.Post", "Post")
-                        .WithMany("CategoryPosts")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Post");
-                });
-
-            modelBuilder.Entity("App.Data.Entity.Post", b =>
-                {
                     b.HasOne("App.Data.Entity.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });
@@ -401,13 +368,11 @@ namespace App.Data.Migrations
 
             modelBuilder.Entity("App.Data.Entity.Category", b =>
                 {
-                    b.Navigation("CategoryPosts");
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("App.Data.Entity.Post", b =>
                 {
-                    b.Navigation("CategoryPosts");
-
                     b.Navigation("PostComments");
                 });
 

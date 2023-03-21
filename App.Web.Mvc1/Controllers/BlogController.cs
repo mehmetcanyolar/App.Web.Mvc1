@@ -1,7 +1,9 @@
 ﻿using App.Data;
+using App.Data.Entity;
 using App.Web.Mvc1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 
 namespace App.Web.Mvc1.Controllers
 {
@@ -26,12 +28,10 @@ namespace App.Web.Mvc1.Controllers
 		}
 
 
-		public IActionResult Detail(int id)
-
+		public async Task<IActionResult> DetailAsync(int id)
 		{
-			var model = _context.Posts.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
-
-            return View(model);
+			var post = await _context.Posts.Include(p => p.Category).AsNoTracking().FirstOrDefaultAsync(p=>p.Id == id);
+            return View(post);
 		}
 	}
 }
