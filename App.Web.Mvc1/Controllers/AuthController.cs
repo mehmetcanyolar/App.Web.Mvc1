@@ -16,12 +16,12 @@ namespace App.Web.Mvc1.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Login()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> GirisyapAsync(string email, string password)
+        public async Task<IActionResult> Login(string email, string password)
         {
             try
             {
