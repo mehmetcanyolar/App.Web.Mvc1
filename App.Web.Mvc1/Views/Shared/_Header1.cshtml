@@ -14,7 +14,25 @@
 					<li class="nav-item d-lg-none">
 						<div class="search_toggle p-3 d-inline-block bg-white"><i class="ti-search"></i></div>
 					</li>
-					<li class="nav-item"><a href="/Auth/Login" class="nav-link">Giriş Yap</a></li>
+					@if (User.Identity.IsAuthenticated)
+					{
+						<li class="nav-item dropdown">
+							<a href="" class="nav-link">@User.Identity.Name</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="/Auth/Logout">Çıkış Yap</a>
+							</div>
+						</li>
+					}
+					else
+					{
+						<li class="nav-item dropdown">
+							<a href="/Auth/Login" class="nav-link">Giriş Yap</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="/Auth/Login">Giriş Yap</a>
+								<a class="dropdown-item" href="/Auth/Register">Kayıt Ol</a>
+							</div>
+						</li>
+					}
 				</ul>
 			</div>
 			<div class="text-right search d-none d-lg-block">

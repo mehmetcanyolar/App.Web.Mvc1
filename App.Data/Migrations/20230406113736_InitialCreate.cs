@@ -42,41 +42,17 @@ namespace App.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostComments",
+                name: "Settings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PostId = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostComments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    PostCommentId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_PostComments_PostCommentId",
-                        column: x => x.PostCommentId,
-                        principalTable: "PostComments",
-                        principalColumn: "Id");
+                    table.PrimaryKey("PK_Settings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,7 +61,6 @@ namespace App.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
@@ -99,31 +74,25 @@ namespace App.Data.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Posts_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Settings",
+                name: "PostComments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false)
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Settings", x => x.Id);
+                    table.PrimaryKey("PK_PostComments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Settings_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_PostComments_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -159,25 +128,16 @@ namespace App.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "City", "Email", "Name", "Password", "Phone", "PostCommentId" },
-                values: new object[,]
-                {
-                    { 1, "İstanbul", "admin@gmail.com", "admin", "123", "1", null },
-                    { 2, "Ankara", "admin1@gmail.com", "admin1", "123", "2", null }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "CategoryId", "Content", "Title", "UserId" },
+                columns: new[] { "Id", "CategoryId", "Content", "Title" },
                 values: new object[,]
                 {
-                    { 1, 1, "İçerik1", "İçerik1", 1 },
-                    { 2, 2, "İçerik2", "İçerik2", 2 },
-                    { 3, 3, "İçerik3", "İçerik3", 1 },
-                    { 4, 1, "İçerik4", "İçerik4", 2 },
-                    { 5, 2, "İçerik5", "İçerik5", 1 },
-                    { 6, 3, "İçerik6", "İçerik6", 2 }
+                    { 1, 1, "İçerik1", "İçerik1" },
+                    { 2, 2, "İçerik2", "İçerik2" },
+                    { 3, 3, "İçerik3", "İçerik3" },
+                    { 4, 1, "İçerik4", "İçerik4" },
+                    { 5, 2, "İçerik5", "İçerik5" },
+                    { 6, 3, "İçerik6", "İçerik6" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -194,40 +154,16 @@ namespace App.Data.Migrations
                 name: "IX_Posts_CategoryId",
                 table: "Posts",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserId",
-                table: "Posts",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Settings_UserId",
-                table: "Settings",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_PostCommentId",
-                table: "Users",
-                column: "PostCommentId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_PostComments_Posts_PostId",
-                table: "PostComments",
-                column: "PostId",
-                principalTable: "Posts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_PostComments_Posts_PostId",
-                table: "PostComments");
-
             migrationBuilder.DropTable(
                 name: "Pages");
+
+            migrationBuilder.DropTable(
+                name: "PostComments");
 
             migrationBuilder.DropTable(
                 name: "PostImages");
@@ -240,12 +176,6 @@ namespace App.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "PostComments");
         }
     }
 }

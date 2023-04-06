@@ -1,0 +1,92 @@
+﻿@model RegisterModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt İşlemleri</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link href="/login/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="cont">
+        <main>
+            <div class="col-lg-12 form sign-in pt-2">
+                <div class="card shadow-lg border-0 rounded-lg">
+                    <div class="card-body">
+                        <form asp-controller="Auth" asp-action="Register" method="post">
+                            <div class="form-floating mb-3">
+                                <input asp-for="FirstName" class="form-control" placeholder="Ad"/>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="LastName" class="form-control" placeholder="Soyad"/>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Email" class="form-control" placeholder="name@example.com" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="City" class="form-control" placeholder="Şehir"/>
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Phone" class="form-control" placeholder="Telefon"/>
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Password" class="form-control" placeholder="Şifre"/>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="RePassword" class="form-control" placeholder="Şifre Tekrar"/>
+                                <span asp-validation-for="RePassword" class="text-danger"></span>
+                            </div>
+                            <p class="form-floating forgot-pass"><a style="color:#cfcfcf" href="/">Ana Sayfa</a></p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <button type="submit" class="submit">Kayıt Ol</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <div class="sub-cont">
+            <div class="img">
+                <div class="img__btn">
+                    <span class="m--in">Kayıt Ol</span>
+                    <span class="m--up">Giriş</span>
+                </div>
+            </div>
+            <div class="container">
+                <div class="container card rounded-lg p-5 mt-5 mb-3">
+                    <p class="form-floating forgot-pass"><a style="color:black" href="/Auth/Login"><b>Giriş Yap</b></a></p>
+                </div>
+                <div class="container card rounded-lg p-5 mt-5 mb-3">
+                    <p class="form-floating forgot-pass"><a style="color:black" href="/"><b>Ana Sayfa</b></a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/login/js/custom.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+@*VALİDOSYON İÇİN GEREKLİ METOTLAR*@
+@section Scripts
+    {
+    <script src="/modules/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}
+
+

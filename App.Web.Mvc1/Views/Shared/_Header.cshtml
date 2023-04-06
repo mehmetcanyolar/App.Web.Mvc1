@@ -17,9 +17,7 @@
                     <div class="collapse navbar-collapse" id="navbar-collapse">
                         <ul id="menu" class="menu navbar-nav mx-auto">
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Ana Sayfa
-                                </a>
+                                <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ana Sayfa</a>
                             </li>
                             <li class="nav-item"><a href="/Home/About" class="nav-link">Hakkımda</a></li>
                             @await Component.InvokeAsync("Categories")
@@ -27,7 +25,25 @@
                             <li class="nav-item d-lg-none">
                                 <div class="search_toggle p-3 d-inline-block bg-white"><i class="ti-search"></i></div>
                             </li>
-                            <li class="nav-item"><a href="/Auth/Login" class="nav-link">Giriş Yap</a></li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a href="" class="nav-link">@User.Identity.Name</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="/Auth/Logout">Çıkış Yap</a>
+                                    </div>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item dropdown">
+                                    <a href="/Auth/Login" class="nav-link">Giriş Yap</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="/Auth/Login">Giriş Yap</a>
+                                        <a class="dropdown-item" href="/Auth/Register">Kayıt Ol</a>
+                                    </div>
+                                </li>
+                            }
                         </ul>
                         <ul class="list-inline mb-0 d-block d-lg-none">
                             <li class="list-inline-item"><a href="#"><i class="ti-facebook"></i></a></li>
@@ -36,7 +52,7 @@
                             <li class="list-inline-item"><a href="#"><i class="ti-pinterest"></i></a></li>
                         </ul>
                     </div>
-                    
+
                 </nav>
             </div>
             <div class="col-lg-2 col-md-4 col-6 d-flex">

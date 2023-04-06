@@ -1,7 +1,8 @@
-﻿@{
+﻿@model LoginModel
+@{
+    ViewData["Title"] = "Giriş";
     Layout = null; // sayfada varsayılan admin layout u kullanmayacağımızı belirttik
 }
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -19,17 +20,20 @@
                     <div class="card shadow-lg border-0 rounded-lg">
                         <div class="card-header"><h3 class="text-center font-weight-light my-4">Merhaba</h3></div>
                         <div class="card-body">
-                            <form asp-action="" method="post">
+                            <form asp-controller="Auth" asp-action="Login" method="post">
+                                <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl">
+                                <div asp-validation-summary="All" class="text-danger"></div>
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputEmail" type="email" name="email" placeholder="name@example.com" />
+                                    <input asp-for="Email" class="form-control" id="inputEmail" type="email" name="email" placeholder="name@example.com" />
+                                    @*<span asp-validation-for="Email" class="text-danger"></span>*@
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputPassword" type="password" placeholder="Şifre" name="password" />
+                                    <input asp-for="Password" class="form-control" id="inputPassword" type="password" placeholder="Şifre" name="password" />
+                                    @*<span asp-validation-for="Password" class="text-danger"></span>*@
                                 </div>
                                 <p class="form-floating forgot-pass"><a style="color:#cfcfcf" href="/Auth/ForgotPassword">Şifremi Unuttum</a></p>
                                 <p class="form-floating forgot-pass"><a style="color:#cfcfcf" href="/">Ana Sayfa</a></p>
                                 <div class="d-flex align-items-center justify-content-between mb-0">
-                                    @TempData["Mesaj"]
                                     <button type="submit" class="submit">Giriş</button>
                                 </div>
                             </form>
@@ -51,42 +55,21 @@
                     <span class="m--in">Giriş</span>
                 </div>
             </div>
-            <main>
-                <div class="col-lg-12 form sign-up">
-                    <div class="card shadow-lg border-0 rounded-lg">
-                        <div class="card-body">
-                            <form asp-action="" method="post">
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputName" type="text" name="text" placeholder="Ad-Soyad" />
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputEmail" type="email" name="email" placeholder="name@example.com" />
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputCity" type="text" name="text" placeholder="Şehir" />
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputPhone" type="tel" name="phone" placeholder="Telefon" />
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputPassword" type="password" placeholder="Şifre" name="password" />
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputPassword" type="password" placeholder="Şifre Tekrar" name="password" />
-                                </div>
-                                <p class="form-floating forgot-pass"><a style="color:#cfcfcf" href="/">Ana Sayfa</a></p>
-                                <div class="d-flex align-items-center justify-content-between mb-0">
-                                    @TempData["Mesaj"]
-                                    <button type="submit" class="submit">Kayıt Ol</button>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
+            <div class="container">
+                <div class="container card rounded-lg p-5 mt-5 mb-3">
+                    <p class="form-floating forgot-pass"><a style="color:black" href="/Auth/Register"><b>Kayıt Ol</b></a></p>
                 </div>
-            </main>
+                <div class="container card rounded-lg p-5 mt-5 mb-3">
+                    <p class="form-floating forgot-pass"><a style="color:black" href="/"><b>Ana Sayfa</b></a></p>
+                </div>
+            </div>
         </div>
     </div>
     <script src="/login/js/custom.js"></script>
 </body>
+@section Scripts
+    {
+    <script src="/modules/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}
 </html>
