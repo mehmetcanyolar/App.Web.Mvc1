@@ -90,8 +90,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "admin",
-    pattern: "{area:exists}/{controller=Main}/{action=Index}/{id?}");
+            name: "areas",
+            pattern: "{area:exists}/{controller=Main}/{action=Index}/{id?}"
+          );
 
 app.MapControllerRoute(
     name: "default",
