@@ -15,7 +15,6 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MsSqlConnection")));
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
 
-
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // password
@@ -65,14 +64,6 @@ builder.Services.AddScoped<IEmailSender, SmtpEmailSender>(i => new SmtpEmailSend
 var app = builder.Build();
 
 
-// Migration yapýldýktan sonra veritabanýnýn otomatik oluþmasý için aþaðýdaki kodlarý yazarýz.
-using (var scope = app.Services.CreateScope())
-{
-    using var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    context.Database.EnsureCreated();
-}
-
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -102,6 +93,12 @@ app.MapControllerRoute(
     name: "custom",
     pattern: "{customurl?}/{controller=Home}/{action=Index}/{id?}");
 
+// Migration yapýldýktan sonra veritabanýnýn otomatik oluþmasý için aþaðýdaki kodlarý yazarýz.
+using (var scope = app.Services.CreateScope())
+{
+    using var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    context.Database.EnsureCreated();
+}
 
 var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())

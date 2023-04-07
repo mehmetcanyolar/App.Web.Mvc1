@@ -5,7 +5,7 @@ namespace App.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)// "DbContextOptions<AppDbContext> options" bu şekilde yazıp "DbContextOptions options" bu şekilde yazmamamızın sebebi projede birden fazla veri tabanının olması
         {
 
         }
