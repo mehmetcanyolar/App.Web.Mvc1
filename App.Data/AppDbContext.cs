@@ -5,10 +5,10 @@ namespace App.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)// "DbContextOptions<AppDbContext> options" bu şekilde yazıp "DbContextOptions options" bu şekilde yazmamamızın sebebi projede birden fazla veri tabanının olması
+        /*public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)// "DbContextOptions<AppDbContext> options" bu şekilde yazıp "DbContextOptions options" bu şekilde yazmamamızın sebebi projede birden fazla veri tabanının olması. Bu şekilde, ASP.NET Core, AppDbContext sınıfının oluşturulması için gerekli DbContextOptions<AppDbContext> nesnesini otomatik olarak sağlayacaktır.
         {
 
-        }
+        }*/
         public DbSet<Category> Categories { get; set; }
         //public DbSet<CategoryPost> CategoriesPost { get; set; }
         public DbSet<Post> Posts { get; set; }
@@ -17,12 +17,12 @@ namespace App.Data
         public DbSet<PostComment> PostComments { get; set; }
         public DbSet<PostImage> PostImages { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    // Burası veritabanı yapılandırma ayarlarını yapabileceğimiz metot
-        //    optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB; database=AspNetMvcBlog; integrated security=true;");
-        //    base.OnConfiguring(optionsBuilder);
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // Burası veritabanı yapılandırma ayarlarını yapabileceğimiz metot
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB; database=AspNetMvcBlog; integrated security=true;");
+            base.OnConfiguring(optionsBuilder);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

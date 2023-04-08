@@ -11,87 +11,87 @@ using App.Data.Entity;
 namespace App.Web.Mvc1.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoriesController : Controller
+    public class PagesController : Controller
     {
         private readonly AppDbContext _context;
 
-        public CategoriesController(AppDbContext context)
+        public PagesController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Categories
+        // GET: Admin/Pages
         public async Task<IActionResult> Index()
         {
-              return _context.Categories != null ? 
-                          View(await _context.Categories.ToListAsync()) :
-                          Problem("Entity set 'AppDbContext.Categories'  is null.");
+              return _context.Pages != null ? 
+                          View(await _context.Pages.ToListAsync()) :
+                          Problem("Entity set 'AppDbContext.Pages'  is null.");
         }
 
-        // GET: Admin/Categories/Details/5
+        // GET: Admin/Pages/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Pages == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var page = await _context.Pages
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (page == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(page);
         }
 
-        // GET: Admin/Categories/Create
+        // GET: Admin/Pages/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Categories/Create
+        // POST: Admin/Pages/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Title,Content,IsActive")] Page page)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(page);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(page);
         }
 
-        // GET: Admin/Categories/Edit/5
+        // GET: Admin/Pages/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Pages == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var page = await _context.Pages.FindAsync(id);
+            if (page == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(page);
         }
 
-        // POST: Admin/Categories/Edit/5
+        // POST: Admin/Pages/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,IsActive")] Page page)
         {
-            if (id != category.Id)
+            if (id != page.Id)
             {
                 return NotFound();
             }
@@ -100,12 +100,12 @@ namespace App.Web.Mvc1.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(page);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!PageExists(page.Id))
                     {
                         return NotFound();
                     }
@@ -116,49 +116,49 @@ namespace App.Web.Mvc1.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(page);
         }
 
-        // GET: Admin/Categories/Delete/5
+        // GET: Admin/Pages/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Pages == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var page = await _context.Pages
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (page == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(page);
         }
 
-        // POST: Admin/Categories/Delete/5
+        // POST: Admin/Pages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Categories == null)
+            if (_context.Pages == null)
             {
-                return Problem("Entity set 'AppDbContext.Categories'  is null.");
+                return Problem("Entity set 'AppDbContext.Pages'  is null.");
             }
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
+            var page = await _context.Pages.FindAsync(id);
+            if (page != null)
             {
-                _context.Categories.Remove(category);
+                _context.Pages.Remove(page);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool PageExists(int id)
         {
-          return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Pages?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

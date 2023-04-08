@@ -11,87 +11,90 @@ using App.Data.Entity;
 namespace App.Web.Mvc1.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoriesController : Controller
+    public class PostsController : Controller
     {
         private readonly AppDbContext _context;
 
-        public CategoriesController(AppDbContext context)
+        public PostsController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Categories
+        // GET: Admin/Posts
         public async Task<IActionResult> Index()
         {
-              return _context.Categories != null ? 
-                          View(await _context.Categories.ToListAsync()) :
-                          Problem("Entity set 'AppDbContext.Categories'  is null.");
+            var appDbContext = _context.Posts.Include(p => p.Category);
+            return View(await appDbContext.ToListAsync());
         }
 
-        // GET: Admin/Categories/Details/5
+        // GET: Admin/Posts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Posts == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var post = await _context.Posts
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (post == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(post);
         }
 
-        // GET: Admin/Categories/Create
+        // GET: Admin/Posts/Create
         public IActionResult Create()
         {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
-        // POST: Admin/Categories/Create
+        // POST: Admin/Posts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Title,Content,CategoryId")] Post post)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", post.CategoryId);
+            return View(post);
         }
 
-        // GET: Admin/Categories/Edit/5
+        // GET: Admin/Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Posts == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var post = await _context.Posts.FindAsync(id);
+            if (post == null)
             {
                 return NotFound();
             }
-            return View(category);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", post.CategoryId);
+            return View(post);
         }
 
-        // POST: Admin/Categories/Edit/5
+        // POST: Admin/Posts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,CategoryId")] Post post)
         {
-            if (id != category.Id)
+            if (id != post.Id)
             {
                 return NotFound();
             }
@@ -100,12 +103,12 @@ namespace App.Web.Mvc1.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(post);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!PostExists(post.Id))
                     {
                         return NotFound();
                     }
@@ -116,49 +119,51 @@ namespace App.Web.Mvc1.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", post.CategoryId);
+            return View(post);
         }
 
-        // GET: Admin/Categories/Delete/5
+        // GET: Admin/Posts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Posts == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var post = await _context.Posts
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (post == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(post);
         }
 
-        // POST: Admin/Categories/Delete/5
+        // POST: Admin/Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Categories == null)
+            if (_context.Posts == null)
             {
-                return Problem("Entity set 'AppDbContext.Categories'  is null.");
+                return Problem("Entity set 'AppDbContext.Posts'  is null.");
             }
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
+            var post = await _context.Posts.FindAsync(id);
+            if (post != null)
             {
-                _context.Categories.Remove(category);
+                _context.Posts.Remove(post);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool PostExists(int id)
         {
-          return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Posts?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

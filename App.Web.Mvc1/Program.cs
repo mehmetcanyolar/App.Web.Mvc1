@@ -1,4 +1,5 @@
 using App.Data;
+using App.Data.Entity;
 using App.Web.Mvc1.EmailServices;
 using App.Web.Mvc1.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -10,10 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
+
+//builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MsSqlConnection")));//AppDbContext için connection string baðlamasý yaptýk. "Configuration" ile "appsettings.json" dosyasýna ulaþýrýz. "GetConnectionString" ile appsettings içerisindeki "ConnectionStrings" altýndaki verilere ulaþýrýz ve orada hangi connection string'i kullanacaksak onun ismini veririz.(SqlConnection).
+
 // Entityframework iþlemlerini yapabilmek aþaðýdaki bu satýrý ekliyoruz. Veritabaný yapýlandýrmasýný yapmýþ olduk.
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MsSqlConnection")));//AppDbContext için connection string baðlamasý yaptýk. "Configuration" ile "appsettings.json" dosyasýna ulaþýrýz. "GetConnectionString" ile appsettings içerisindeki "ConnectionStrings" altýndaki verilere ulaþýrýz ve orada hangi connection string'i kullanacaksak onun ismini veririz.(SqlConnection).
+builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MsSqlConnection")));
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
+
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -108,4 +113,4 @@ using (var scope = scopeFactory.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     SeedIdentity.Seed(userManager, roleManager, configuration).Wait();
 }
-    app.Run();
+app.Run();

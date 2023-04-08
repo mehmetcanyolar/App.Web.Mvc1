@@ -11,87 +11,87 @@ using App.Data.Entity;
 namespace App.Web.Mvc1.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoriesController : Controller
+    public class SettingsController : Controller
     {
         private readonly AppDbContext _context;
 
-        public CategoriesController(AppDbContext context)
+        public SettingsController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Categories
+        // GET: Admin/Settings
         public async Task<IActionResult> Index()
         {
-              return _context.Categories != null ? 
-                          View(await _context.Categories.ToListAsync()) :
-                          Problem("Entity set 'AppDbContext.Categories'  is null.");
+              return _context.Settings != null ? 
+                          View(await _context.Settings.ToListAsync()) :
+                          Problem("Entity set 'AppDbContext.Settings'  is null.");
         }
 
-        // GET: Admin/Categories/Details/5
+        // GET: Admin/Settings/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Settings == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var setting = await _context.Settings
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (setting == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(setting);
         }
 
-        // GET: Admin/Categories/Create
+        // GET: Admin/Settings/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Categories/Create
+        // POST: Admin/Settings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Name,Value")] Setting setting)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(setting);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(setting);
         }
 
-        // GET: Admin/Categories/Edit/5
+        // GET: Admin/Settings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Settings == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var setting = await _context.Settings.FindAsync(id);
+            if (setting == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(setting);
         }
 
-        // POST: Admin/Categories/Edit/5
+        // POST: Admin/Settings/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Value")] Setting setting)
         {
-            if (id != category.Id)
+            if (id != setting.Id)
             {
                 return NotFound();
             }
@@ -100,12 +100,12 @@ namespace App.Web.Mvc1.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(setting);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!SettingExists(setting.Id))
                     {
                         return NotFound();
                     }
@@ -116,49 +116,49 @@ namespace App.Web.Mvc1.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(setting);
         }
 
-        // GET: Admin/Categories/Delete/5
+        // GET: Admin/Settings/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Settings == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var setting = await _context.Settings
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (setting == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(setting);
         }
 
-        // POST: Admin/Categories/Delete/5
+        // POST: Admin/Settings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Categories == null)
+            if (_context.Settings == null)
             {
-                return Problem("Entity set 'AppDbContext.Categories'  is null.");
+                return Problem("Entity set 'AppDbContext.Settings'  is null.");
             }
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
+            var setting = await _context.Settings.FindAsync(id);
+            if (setting != null)
             {
-                _context.Categories.Remove(category);
+                _context.Settings.Remove(setting);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool SettingExists(int id)
         {
-          return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Settings?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
