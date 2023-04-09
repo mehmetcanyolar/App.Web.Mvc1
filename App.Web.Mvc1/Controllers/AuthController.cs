@@ -87,6 +87,7 @@ namespace App.Web.Mvc1.Controllers
 
             var user = new User()
             {
+                UserName = model.Email,// UserName kısmını biz kullanıcıdan almıyacaz fakat ıdentity üzerinden oluşturduğumuz veri tabanı içerisinde "UserName" kolonu olduğu için ve hata vermemesi için RegisterModel içerisinden gelen kullanıcı emaili ile eşitledik.
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 City = model.City,
@@ -106,9 +107,14 @@ namespace App.Web.Mvc1.Controllers
                 await _emailSender.SendEmailAsync(model.Email, "Hesabınızı onaylayınız.", $"Lütfen email hesabınızı onaylamak için linke <a href='https://localhost:7051{url}'>tıklayınız.</a>");
                 return RedirectToAction("Login", "Auth");
             }
-
             ModelState.AddModelError("", "Bilinmeyen hata oldu lütfen tekrar deneyiniz.");
             return View(model);
+            
+            // Her hangi bir hata alındığında hatanın nereden olduğunu görmek için aşağıdaki yorum satırındaki kodları if bloğunun altına ekleriz
+            //else
+            //{
+            //    return BadRequest(result.Errors);
+            //}
         }
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
